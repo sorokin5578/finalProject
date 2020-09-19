@@ -1,7 +1,3 @@
-<%--
-  Author: Pavel Ravvich.
-  Date: 14.10.17.
---%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <html>
@@ -10,6 +6,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <body>
+<h1>Hello <c:out value="${role}"/>!</h1>
+<a href="/logout">Logout</a><br><br>
+
 
 <h1>Hello from my Project</h1><br />
 
@@ -30,7 +29,7 @@
 
 <h2>Создание новой конференции</h2><br />
 
-<form method="post" action="">
+<form method="post" action="/main_page">
 
     <label><input type="text" name="name"></label>Name<br>
 
