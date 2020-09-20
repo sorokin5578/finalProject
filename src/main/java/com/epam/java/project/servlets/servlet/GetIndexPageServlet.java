@@ -1,33 +1,34 @@
 package com.epam.java.project.servlets.servlet;
 
+import com.epam.java.project.dao.ConferenceDAO;
 import com.epam.java.project.entity.Conference;
+import com.epam.java.project.entity.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class GetIndexPageServlet extends HttpServlet {
 
     private static String index = "/WEB-INF/view/main_menu.jsp";
-    private List<Conference> conferences;
+    private AtomicReference<ConferenceDAO> conferences;
 
     @Override
     public void init() throws ServletException {
         System.out.println("init");
-        conferences = new CopyOnWriteArrayList<>();
-        conferences.add(new Conference("java summer", "java", "18:00 20-08-2020"));
-        conferences.add(new Conference("python summer", "python", "20:00 21-08-2020"));
+
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        System.out.println("doget");
-        req.setAttribute("conferences", conferences);
+        conferences = (AtomicReference<ConferenceDAO>) req.getServletContext().getAttribute("conferenceDAO");
+        req.setAttribute("conferences", conferences.get().store);
         req.getRequestDispatcher(index).forward(req, resp);
 
     }
@@ -44,9 +45,9 @@ public class GetIndexPageServlet extends HttpServlet {
         final String name = req.getParameter("name");
         final String topic = req.getParameter("topic");
         final String conferenceDate = req.getParameter("conferenceDate");
-        final Conference conference = new Conference(name, topic, conferenceDate);
-
-        conferences.add(conference);
+        final User user = (User) req.getSession().getAttribute("user");
+        final Conference conference = new Conference(name, topic, conferenceDate, user);
+        conferences.get().add(conference);
 
         doGet(req, resp);
     }

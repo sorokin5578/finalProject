@@ -34,8 +34,7 @@ public class AuthFilter implements Filter {
         final String username = req.getParameter("username");
         final String password = req.getParameter("password");
 
-        @SuppressWarnings("unchecked")
-        final AtomicReference<UserDAO> dao = (AtomicReference<UserDAO>) req.getServletContext().getAttribute("dao");
+        @SuppressWarnings("unchecked") final AtomicReference<UserDAO> dao = (AtomicReference<UserDAO>) req.getServletContext().getAttribute("dao");
 
         final HttpSession session = req.getSession();
 
@@ -48,7 +47,7 @@ public class AuthFilter implements Filter {
 
             moveToMenu(req, res, dao.get().getUserByLoginPassword(
                     (String) session.getAttribute("username"),
-                    (String)session.getAttribute("password")));
+                    (String) session.getAttribute("password")));
 
 
         } else if (dao.get().userIsExist(username, password)) {
@@ -78,13 +77,11 @@ public class AuthFilter implements Filter {
                             final User user)
             throws ServletException, IOException {
 
-
-        if (user.getRole().equals(Role.ADMIN)||user.getRole().equals(Role.USER)) {
-            req.setAttribute("role", user.getRole());
-//            req.getRequestDispatcher("/WEB-INF/view/main_menu.jsp").forward(req, res);
-            res.sendRedirect("/main_page");
-        } else {
+        if (user.getRole().equals(Role.UNKNOWN)) {
             req.getRequestDispatcher("/WEB-INF/view/login.jsp").forward(req, res);
+        } else {
+            req.getSession().setAttribute("user", user);
+            res.sendRedirect("/main_page");
         }
     }
 

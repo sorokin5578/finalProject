@@ -14,6 +14,27 @@
         <url-pattern>/main_page</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>EditConferenceServlet</servlet-name>
+        <servlet-class>com.epam.java.project.servlets.servlet.EditConferenceServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>EditConferenceServlet</servlet-name>
+        <url-pattern>/edit_conference</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>DeleteConferenceServlet</servlet-name>
+        <servlet-class>com.epam.java.project.servlets.servlet.DeleteConferenceServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>DeleteConferenceServlet</servlet-name>
+        <url-pattern>/delete_conference</url-pattern>
+    </servlet-mapping>
+
     <!--Logout servlet-->
     <servlet>
         <servlet-name>SignUpServlet</servlet-name>

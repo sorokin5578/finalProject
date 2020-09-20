@@ -1,7 +1,6 @@
 package com.epam.java.project.servlets.servlet;
 
 import com.epam.java.project.dao.UserDAO;
-import com.epam.java.project.entity.Conference;
 import com.epam.java.project.entity.Role;
 import com.epam.java.project.entity.User;
 
@@ -34,9 +33,7 @@ public class SignUpServlet extends HttpServlet {
 
             final AtomicReference<UserDAO> dao = (AtomicReference<UserDAO>) req.getServletContext().getAttribute("dao");
             dao.get().add(user);
-            for (User us:dao.get().store){
-                System.out.println("id="+us.getId()+", username="+us.getUsername()+", pass="+us.getPassword()+", role"+us.getRole());
-            }
+            System.out.println(dao.get().store);
             resp.sendRedirect("/");
         }catch (ServletException| IOException e){
             e.printStackTrace();
